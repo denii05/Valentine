@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Serif+Text:ital@0;1&family=Jost:ital,wght@0,100..900;1,100..900&family=Shafarik&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>For my pretty boy</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #fff;
+        --bg-color: #ffebf2; /* Soft pink background */
+        --bg-envelope-color: #ffe3ed; /* Light pink envelope */
+        --envelope-tab: #e1d9d9; /* Darker pink tab */
+        --envelope-cover: #f4eef0; /* Medium pink cover */
+        --shadow-color: rgba(0, 0, 0, 0.2);
+        --txt-color: #003049; /* Deep red text */
+        --heart-color: #a02b2b; /* Bright pink heart */
+      }
+
+      body {
+        background: var(--bg-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      h1 {
+        font-family: "Marck Script", serif;
+        text-align: center;
+        font-size: 60px;
+        margin-bottom: 50px;
+        color: #a02b2b;
+      }
+
+      .container {
+        width: 400px;
+      }
+
+      .container > .envelope-wrapper {
+        position: relative;
+        background-color: var(--bg-envelope-color);
+        box-shadow: 0 0 40px var(--shadow-color);
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .envelope-wrapper:hover {
+        transform: scale(1.05);
+      }
+
+      .envelope-wrapper > .envelope {
+        position: relative;
+        width: 400px;
+        height: 400px;
+      }
+
+      .envelope-wrapper > .envelope::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 4;
+        border-top: 200px solid var(--envelope-tab);
+        border-right: 200px solid transparent;
+        border-left: 200px solid transparent;
+        transform-origin: top;
+        transition: all 0.5s ease-in-out 0.7s;
+        border-radius: 10px;
+      }
+
+      .tap-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        transform: rotate(-90deg, 90deg);
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background-color: var(--envelope-cover);
+      }
+
+      .tap-left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(0 0, 0% 100%, 100% 100%);
+        background-color: var(--envelope-cover);
+        transform: rotate(90deg, -90deg);
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+
+      .envelope-wrapper.disable-envelope .envelope::before {
+        pointer-events: none;
+      }
+
+      .envelope > .letter {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary);
+        text-align: center;
+        box-shadow: 0 0 5px var(--shadow-color);
+        padding: 20px;
+        border-radius: 10px;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .envelope > .letter > .text {
+        font-family: "Pacifico", cursive;
+        color: var(--txt-color);
+        text-align: left;
+        font-size: 16px; /* Increased font size */
+        border: 2px double var(--heart-color); /* Changed to dashed and used heart color */
+        padding: 20px; /* Increased padding */
+        height: 100%;
+        line-height: 24px; /* Increased line height */
+        cursor: pointer;
+        overflow: scroll;
+      }
+
+      .letter-image {
+        width: 100%;
+        text-align: center;
+        margin-top: 20px; /* Added space above the image */
+      }
+
+      .letter-image img {
+        width: 80%; /* Adjust image size */
+        border-radius: 10px; /* Rounded corners for the image */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Soft shadow for the image */
+      }
+
+      .heart {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        background: var(--heart-color);
+        transform: translate(-50%, 0%) rotate(45deg);
+        transition: transform 0.5s ease-in-out 1s;
+        box-shadow: 0 1px 6px var(--shadow-color);
+        cursor: pointer;
+        z-index: 999;
+      }
+
+      .heart:before,
+      .heart:after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: var(--heart-color);
+        border-radius: 80%;
+      }
+
+      .heart:before {
+        top: -15px;
+      }
+
+      .heart:after {
+        right: 15px;
+      }
+
+      .flap > .envelope:before {
+        transform: rotateX(180deg);
+        z-index: 0;
+      }
+
+      .flap > .heart {
+        transform: rotate(90deg);
+        transition-delay: 0.4s;
+      }
+
+      .letter.letter-opening {
+        transform: translateY(-290px);
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .letter.closing-letter {
+        transform: translateY(-290px);
+        transition: transform 0.5s ease-in-out;
+        z-index: 10000;
+      }
+
+      .letter.opened {
+        z-index: 10000;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--envelope-cover);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--heart-color);
+      }
+
+      @media screen and (max-width: 400px) {
+        .container {
+          width: 300px;
+        }
+
+        .envelope-wrapper > .envelope {
+          position: relative;
+          width: 300px;
+          height: 250px;
+        }
+
+        .tap-left,
+        .tap-right {
+          width: 100%;
+        }
+
+        .envelope-wrapper > .envelope::before {
+          border-top: 150px solid var(--envelope-tab);
+          border-right: 150px solid transparent;
+          border-left: 150px solid transparent;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>¡Feliz San Valentín! ❤️</h1>
+    <div class="container">
+      <div class="envelope-wrapper">
+        <div class="envelope">
+          <div class="letter">
+            <div class="text">
+              <strong>My Love,</strong>
+              <p>
+                I tend to get the love zoomies quite a lot, but today, I get to
+                be even more sappy about how much I love you. You’re the most
+                beautiful, kind, and thoughtful person I know, and I still can’t
+                believe I get to call you my bbg gatito :D<br /><br />
+                Gotta get my poetic rizz in😌<br />
+                <em
+                  >They say absence makes the heart grow fonder, but my heart
+                  didn’t need the distance to know you’re my forever. You’re the
+                  warmth in my thoughts, the hope in my tomorrows, and the
+                  reason I believe in love so deeply. Every second apart feels
+                  like a countdown to the moment I finally see you, and until
+                  then, I’ll keep telling you how much you mean to me—because my
+                  love for you only grows stronger with every word (poetic
+                  rizz)</em
+                ><br /><br />
+                I love you more than words can say.<br /><br />
+                Happy Valentine’s Day, mi amor. You’ll always be my favourite
+                person.<br /><br />
+                Yours forever,<br />
+                Deni❤️
+              </p>
+              <div
+                class="tenor-gif-embed"
+                data-postid="27164302"
+                data-share-method="host"
+                data-aspect-ratio="0.70625"
+                data-width="100%"
+              >
+                <a href="https://tenor.com/view/infiniterizz-gif-27164302"
+                  >Infiniterizz Sticker</a
+                >from
+                <a href="https://tenor.com/search/infiniterizz-stickers"
+                  >Infiniterizz Stickers</a
+                >
+              </div>
+              <script
+                type="text/javascript"
+                async
+                src="https://tenor.com/embed.js"
+              ></script>
+            </div>
+          </div>
+        </div>
+        <div class="heart"></div>
+        <div class="tap-right"></div>
+        <div class="tap-left"></div>
+      </div>
+    </div>
+
+    <script>
+      const envelope = document.querySelector(".envelope-wrapper");
+      const letter = document.querySelector(".letter");
+
+      document.addEventListener("click", (e) => {
+        if (
+          e.target.matches(".envelope") ||
+          e.target.matches(".tap-right") ||
+          e.target.matches(".tap-left") ||
+          e.target.matches(".heart")
+        ) {
+          envelope.classList.toggle("flap");
+        } else if (e.target.matches(".envelope *")) {
+          if (!letter.classList.contains("opened")) {
+            letter.classList.add("letter-opening");
+
+            setTimeout(() => {
+              letter.classList.remove("letter-opening");
+              letter.classList.add("opened");
+            }, 500);
+            envelope.classList.add("disable-envelope");
+          } else {
+            letter.classList.add("closing-letter");
+            envelope.classList.remove("disable-envelope");
+            letter.classList.remove("opened");
+            setTimeout(() => {
+              letter.classList.remove("closing-letter");
+              letter.classList.remove("opened");
+            }, 500);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
